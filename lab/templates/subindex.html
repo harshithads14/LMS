@@ -1,0 +1,364 @@
+{% include "header.html" %}
+
+<link href="{{url_for('static', filename = 'css/bootstrap.min.css')}}" rel="stylesheet">
+
+{% block body %}
+<div class="container">
+
+    <div class="row">
+
+        <div class="col md-12">
+
+
+
+            <h2>Subject Details<button type="button" class="btn btn-success  pull-right" data-toggle="modal"
+                data-target="#myModal">Add Subject Details</button></h2>
+
+
+    {%with messages = get_flashed_messages()%}
+
+    {%if messages%}
+
+    {% for message in messages %}
+
+    <div class="alert alert-success alert-dismissable" role="alert">
+
+     <button type="button" class="close" data-dismiss="alert" aria-label ="close">
+
+         <span aria-hidden="true">&times;</span>
+
+     </button>
+        {{message}}
+
+
+    </div>
+
+
+    {%endfor%}
+    {%endif%}
+    {%endwith%}
+
+
+
+<!-- Table Data start-->
+            <table class="table table-striped">
+
+
+                <tr>
+              <th>Subject code</th>
+              <th>Subject name</th>
+              <th>Subject branch</th>
+              <th>Subject credits</th>
+              <th>Subject semester</th>
+              <th>Action</th>
+          </tr>
+
+
+
+
+
+                {% for row in system %}
+                <tr>
+                    <td>{{row.0}}</td>
+                    <td>{{row.1}}</td>
+                    <td>{{row.2}}</td>
+                    <td>{{row.3}}</td>
+                    <td>{{row.4}}</td>
+                    <td>
+
+
+               <a href="/subupdate/{{row.0}}" class="btn btn-warning btn-xs" data-toggle="modal" data-target="#modaledit{{row.0}}">Edit</a>
+                <a href="/subdelete/{{ row.0 }}" class="btn btn-danger btn-xs" onclick="return confirm('Are You Sure For Delete?')">Delete</a>
+
+                    </td>
+
+                </tr>
+<!-- Table Data END-->
+
+<!-- Update Data-->
+                <div id="modaledit{{row.0}}" class="modal fade" role="dialog">
+
+
+   <div class="modal-dialog">
+
+
+      <div class="modal-content">
+
+
+         <div class="modal-header">
+
+
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+
+            <h4 class="modal-title">Update Information</h4>
+
+
+         </div>
+
+
+         <div class="modal-body">
+
+
+            <form action="{{ url_for('subupdate') }}" method="POST">
+                
+                <div class="form-group">
+
+                    <input type="hidden"  name="sbcode" value="{{row.0}}">
+                </div>
+
+                <div class="form-group">
+
+                    <label>Subject name</label>
+  
+                    <input type="text" class="form-control" name="sbname" value="{{row.1}}">
+  
+  
+                 </div>
+
+               <div class="form-group">
+
+                   <label>Branch</label>
+                   <input type="text" class="form-control" disabled value="{{row.2}}">
+                   <select name="sbbranch" value="{{row.2}}" class="form-control" required="1">
+                      <option value =''disabled selected>Select</option>
+                      <option value="CSE">CSE</option>
+                      <option value="ECE">ECE</option>
+                      <option value="CIVIL">CIVIL</option>
+                      <option value="MECH">MECH</option>
+                   </select>
+
+
+               </div>
+
+
+
+               <div class="form-group">
+
+
+                  <label>Credits</label>
+
+                  <input type="number" class="form-control" name="sbcredits" value="{{row.3}}">
+
+
+               </div>
+
+               <div class="form-group">
+
+
+                <label>Semester</label>
+
+                <input type="number" class="form-control" disabled value="{{row.4}}">
+                <select name="sbsem" value="{{row.4}}" class="form-control" required="1">
+                  <option value =''disabled selected>Select</option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                  <option value="6">6</option>
+                  <option value="7">7</option>
+                  <option value="8">8</option>
+                </select>
+
+
+             </div>
+
+
+
+               <div class="form-group">
+
+
+                  <button class="btn btn-primary" type="submit">Update</button>
+
+
+               </div>
+
+
+            </form>
+
+
+         </div>
+
+
+         <div class="modal-footer">
+
+
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+
+
+         </div>
+
+
+      </div>
+
+
+   </div>
+
+
+</div>
+
+<!-- Table Data start-->
+                {% endfor  %}
+
+
+                </tbody>
+
+
+            </table>
+
+
+        </div>
+<!-- Table Data END-->
+
+
+<!-- Update Data END-->
+
+
+
+<!-- Insert Data-->
+
+<div id="myModal" class="modal fade" role="dialog">
+
+
+   <div class="modal-dialog">
+
+
+      <div class="modal-content">
+
+
+         <div class="modal-header">
+
+
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+
+            <h4 class="modal-title">Please Insert Data</h4>
+
+
+         </div>
+
+
+         <div class="modal-body">
+
+
+            <form action="{{ url_for('subinsert') }}" method="POST">
+
+
+               <div class="form-group">
+
+
+                  <label>Subject code</label>
+                  <input type="text" class="form-control" name="sbcode" required="1">
+
+
+               </div>
+
+               <div class="form-group">
+
+
+                <label>Subject name</label>
+                <input type="text" class="form-control" name="sbname" required="1">
+
+
+             </div>
+
+
+                <div class="form-group">
+
+
+                  <label>Branch</label>
+                  <select name="sbbranch" class="form-control" required="1">
+                     <option value =''disabled selected>Select</option>
+                     <option value="CSE">CSE</option>
+                     <option value="ECE">ECE</option>
+                     <option value="CIVIL">CIVIL</option>
+                     <option value="MECH">MECH</option>
+                  </select>
+
+               </div>
+
+
+                <div class="form-group">
+
+
+                  <label>Credits</label>
+                  <input type="number" class="form-control" name="sbcredits" required="1">
+
+
+               </div>
+
+               <div class="form-group">
+
+
+                <label>Semester</label>
+                <select name="sbsem" class="form-control" required="1">
+                  <option value =''disabled selected>Select</option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                  <option value="6">6</option>
+                  <option value="7">7</option>
+                  <option value="8">8</option>
+                </select>
+
+
+             </div>
+
+
+
+               <div class="form-group">
+
+
+                  <button class="btn btn-primary" type="submit">Submit</button>
+
+
+               </div>
+
+
+            </form>
+
+
+         </div>
+
+
+         <div class="modal-footer">
+
+
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+
+
+         </div>
+
+
+      </div>
+
+
+   </div>
+
+
+</div>
+
+<!-- Insert Data END-->
+
+<div class="well">
+
+</div>
+
+
+    </div>
+
+
+</div>
+
+{% include "footer.html" %}
+{% endblock %}
+
+
+
+
+<script type="text/javascript" src="{{url_for('static', filename='js/jquery-3.2.1.min.js') }}"></script>
+
+<script type="text/javascript" src="{{url_for('static', filename = 'js/bootstrap.min.js')}}"></script>

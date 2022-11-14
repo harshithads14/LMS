@@ -1,0 +1,172 @@
+@import url("https://fonts.googleapis.com/icon?family=Material+Icons");
+@import url("https://fonts.googleapis.com/css?family=Open+Sans");
+body {
+  margin: 0;
+  font-family: "Open Sans";
+}
+.body--dark {
+  background: #0f1728;
+}
+.menu {
+  position: fixed;
+  background: #f5f5f5;
+  color: #000;
+  height: 80px;
+  width: 100%;
+  border-bottom: 1px solid #ccc;
+}
+
+.menu__container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 80%;
+  height: 100%;
+  margin: 0 auto;
+}
+.menu__logo {
+  cursor: default;
+  display: inline-flex;
+  float: right;
+  font-size: 1.4em;
+  font-weight: 900;
+  white-space: nowrap;
+}
+.menu__buttons {
+  display: inline-flex;
+  box-sizing: border-box;
+  justify-content: center;
+}
+.button {
+  display: inline-block;
+  box-sizing: border-box;
+  padding: 10px 20px;
+  font-size: 1em;
+  background: #fff;
+  color: #777;
+  text-align: center;
+  border: 1px solid #ccc;
+  text-shadow: 0 0 35px #000;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.button:nth-child(n+2) {
+  margin-left: 10px;
+}
+.button:hover {
+  transition-duration: 0.1s;
+  opacity: 0.5;
+}
+.button--small {
+  width: 100px;
+}
+.button--medium {
+  width: 150px;
+}
+.button--green {
+  color: #fff;
+  background: #0fc27d;
+  border: none;
+}
+.button--orange {
+  color: #fff;
+  background: #f3a814;
+  border: none;
+}
+.button--red {
+  color: #fff;
+  background: #f55;
+  border: none;
+}
+.button--dark {
+  background: #33334c;
+  color: #fff;
+}
+.button--disabled {
+  background: #aaa;
+}
+.button--login {
+  padding-right: 35px;
+}
+.button--login:after {
+  position: absolute;
+  margin-left: 5px;
+  margin-top: 2px;
+  font-family: "Material Icons";
+  content: "vpn_key";
+}
+.button--register {
+  padding-right: 35px;
+}
+.button--register:after {
+  margin-left: 5px;
+  margin-top: 2px;
+  position: absolute;
+  font-family: "Material Icons";
+  content: "lock";
+}
+.button--menu {
+  display: none;
+  padding-right: 35px;
+  height: 44px;
+}
+.button--menu:after {
+  margin-left: 0;
+  margin-top: 2px;
+  position: absolute;
+  font-family: "Material Icons";
+  content: "menu";
+}
+@media screen and (max-width: 1050px) {
+  .menu__container {
+    width: 90%;
+  }
+  .button--login,
+  .button--register {
+    height: 44px;
+  }
+  .button--login span,
+  .button--register span {
+    display: none;
+  }
+  .button--login:after,
+  .button--register:after {
+    margin-left: 0;
+  }
+}
+@media screen and (max-width: 830px) {
+  .menu__buttons {
+    display: none;
+  }
+  .button--menu {
+    display: block;
+  }
+  .menuButtonClicked {
+    height: auto;
+  }
+  .menuButtonClicked .menu__logo {
+    display: none;
+  }
+  .menuButtonClicked .menu__container,
+  .menuButtonClicked .menu__buttons {
+    display: block;
+  }
+  .menuButtonClicked .menu__container .button {
+    display: block;
+    width: 90%;
+    margin: 7px auto;
+  }
+  .menuButtonClicked .menu__container .button span {
+    display: inline-block;
+  }
+  .menuButtonClicked .menu__container .button:after {
+    margin-left: 5px;
+  }
+  .menuButtonClicked .menu__container .button--menu:after {
+    margin-left: 0;
+  }
+}
+#darkModeButton {
+  position: inherit;
+  bottom: 10px;
+}

@@ -1,0 +1,354 @@
+
+{% include "header.html" %}
+
+<link href="{{url_for('static', filename = 'css/bootstrap.min.css')}}" rel="stylesheet">
+
+{% block body %}
+<div class="container">
+
+    <div class="row">
+
+        <div class="col md-12">
+
+
+
+            <h2>Lab Details <button type="button" class="btn btn-success  pull-right" data-toggle="modal"
+                data-target="#myModal">Add Lab Details</button></h2>
+
+
+    {%with messages = get_flashed_messages()%}
+
+    {%if messages%}
+
+    {% for message in messages %}
+
+    <div class="alert alert-success alert-dismissable" role="alert">
+
+     <button type="button" class="close" data-dismiss="alert" aria-label ="close">
+
+         <span aria-hidden="true">&times;</span>
+
+     </button>
+        {{message}}
+
+
+    </div>
+
+
+    {%endfor%}
+    {%endif%}
+    {%endwith%}
+
+
+
+<!-- Table Data start-->
+            <table class="table table-striped">
+
+
+         <tr>
+              <th>Room No</th>
+              <th>Name</th>
+              <th>Capacity</th>
+              <th>Wifi</th>
+              <th>Projector</th>
+              <th>Chairs</th>
+              <th>Total Chairs</th>
+              <th>Action</th>
+          </tr>
+
+
+         {% for row in system %}
+                <tr>
+                    <td>{{row.0}}</td>
+                    <td>{{row.1}}</td>
+                    <td>{{row.2}}</td>
+                    <td>{{row.3}}</td>
+                    <td>{{row.4}}</td>
+                    <td>{{row.5}}</td>
+                    <td>{{row.6}}</td>
+                    <td>
+
+
+               <a href="/lupdate/{{row.0}}" class="btn btn-warning btn-xs" data-toggle="modal" data-target="#modaledit{{row.0}}">Edit</a>
+                <a href="/ldelete/{{ row.0 }}" class="btn btn-danger btn-xs" onclick="return confirm('Are You Sure For Delete?')">Delete</a>
+
+                    </td>
+
+                </tr>
+<!-- Table Data END-->
+
+<!-- Update Data-->
+                <div id="modaledit{{row.0}}" class="modal fade" role="dialog">
+
+
+   <div class="modal-dialog">
+
+
+      <div class="modal-content">
+
+
+         <div class="modal-header">
+
+
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+
+            <h4 class="modal-title">Update Lab</h4>
+
+
+         </div>
+
+
+         <div class="modal-body">
+
+
+            <form action="{{ url_for('lupdate') }}" method="POST">
+
+
+               <div class="form-group">
+
+                  <input type="hidden"  name="rno" value="{{row.0}}">
+               </div>
+
+               <div class="form-group">
+                  <label>Lab Name</label>
+                  <input type="text" class="form-control" name="lname" value="{{row.1}}">
+               </div>
+
+               <div class="form-group">
+                  <label>Capacity</label>
+                  <input type="number" class="form-control" name="lcapacity" value="{{row.2}}">
+               </div>
+
+               <div class="form-group">
+                  <label>Wifi</label>
+                  <input type="text" class="form-control" disabled value="{{row.3}}">
+                  <select name="wifi" value="{{row.3}}" class="form-control" required="1">
+                     <option value =''disabled selected>Select</option>
+                     <option value="Available">Available</option>
+                     <option value="Unavailable">Unavailable</option>
+                  </select>
+               </div>
+               
+               <div class="form-group">
+                  <label>Projector</label>
+                  <input type="text" class="form-control" disabled value="{{row.4}}">
+                  <select name="projector" value="{{row.4}}" class="form-control" required="1">
+                     <option value =''disabled selected>Select</option>
+                     <option value="Available">Available</option>
+                     <option value="Unavailable">Unavailable</option>
+                  </select>
+               </div>
+
+               <div class="form-group">
+                  <label>Chairs</label>
+                  <input type="text" class="form-control" disabled value="{{row.5}}">
+                  <select name="chairs" value="{{row.5}}" class="form-control" required="1">
+                     <option value =''disabled selected>Select</option>
+                     <option value="Available">Available</option>
+                     <option value="Unavailable">Unavailable</option>
+                  </select>
+               </div>
+
+               <div class="form-group">
+                  <label>TotalChairs</label>
+                  <input type="number" class="form-control" name="no_of_chairs" value="{{row.6}}">
+               </div>
+
+                  <!--<label>System No</label>
+                  <select name="sno" value="{{row.7}}" class="form-control" required="1">
+                     <option value =''disabled selected>Select</option>
+                     {% for row in system1 %}
+                     <option value="{{row.0}}">{{row.0}}</option>
+                     {% endfor  %}
+                  </select>-->
+
+               <div class="form-group">
+
+
+                  <button class="btn btn-primary" type="submit">Update</button>
+
+
+               </div>
+
+
+            </form>
+
+
+         </div>
+
+
+         <div class="modal-footer">
+
+
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+
+
+         </div>
+
+
+      </div>
+
+
+   </div>
+
+
+</div>
+
+<!-- Table Data start-->
+                {% endfor  %}
+
+
+                </tbody>
+
+
+            </table>
+
+
+        </div>
+<!-- Table Data END-->
+
+
+<!-- Update Data END-->
+
+
+
+<!-- Insert Data-->
+
+<div id="myModal" class="modal fade" role="dialog">
+
+
+   <div class="modal-dialog">
+
+
+      <div class="modal-content">
+
+
+         <div class="modal-header">
+
+
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+
+            <h4 class="modal-title">Please Insert Data</h4>
+
+
+         </div>
+
+
+         <div class="modal-body">
+
+
+            <form action="{{ url_for('linsert') }}" method="POST">
+
+
+               <div class="form-group">
+
+                  <label>Room Number</label>
+                  <input type="text" name="rno" class="form-control" required="1">
+               </div>
+
+               <div class="form-group">
+                  <label>Lab Name</label>
+                  <input type="text"  name="lname" class="form-control" required="1">
+               </div>
+
+               <div class="form-group">
+                  <label>Capacity</label>
+                  <input type="number"  name="lcapacity" class="form-control" required="1">
+               </div>
+
+               <div class="form-group">
+                  <label>Wifi</label>
+                  <select name="wifi" class="form-control" required="1">
+                     <option value =''disabled selected>Select</option>
+                     <option value="Available">Available</option>
+                     <option value="Unavailable">Unavailable</option>
+                  </select>
+               </div>
+
+               <div class="form-group">
+                  <label>Projector</label>
+                  <select name="projector" class="form-control" required="1">
+                     <option value =''disabled selected>Select</option>
+                     <option value="Available">Available</option>
+                     <option value="Unavailable">Unavailable</option>
+                  </select>
+               </div>
+
+               <div class="form-group">
+                  <label>Chairs</label>
+                  <select name="chairs" class="form-control" required="1">
+                     <option value =''disabled selected>Select</option>
+                     <option value="Available">Available</option>
+                     <option value="Unavailable">Unavailable</option>
+                  </select>
+               </div>
+
+               <div class="form-group">
+                  <label>TotalChairs</label>
+                  <input type="number"  name="no_of_chairs" class="form-control" required="1">
+               </div>
+
+               <!--<div class="form-group">
+                  <label>System No</label>
+                  <select name="sno" class="form-control" required="1">
+                     <option value =''disabled selected>Select</option>
+                     {% for row in system %}
+                     <option value="{{row.0}}">{{row.0}}</option>
+                     {% endfor  %}
+                  </select>
+              </div>-->
+
+
+               <div class="form-group">
+
+
+                  <button class="btn btn-primary" type="submit">Submit</button>
+
+
+               </div>
+
+
+            </form>
+
+
+         </div>
+
+
+         <div class="modal-footer">
+
+
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+
+
+         </div>
+
+
+      </div>
+
+
+   </div>
+
+
+</div>
+
+<!-- Insert Data END-->
+
+<div class="well">
+
+</div>
+
+
+    </div>
+
+
+</div>
+
+{% include "footer.html" %}
+{% endblock %}
+
+
+<script type="text/javascript" src="{{url_for('static', filename='js/jquery-3.2.1.min.js') }}"></script>
+
+<script type="text/javascript" src="{{url_for('static', filename = 'js/bootstrap.min.js')}}"></script>
